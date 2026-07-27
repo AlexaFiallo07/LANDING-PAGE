@@ -1,423 +1,327 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>EFFIADMI — Gestión Inteligente</title>
-    <meta name="description" content="EFFIADMI - La plataforma de gestión que transforma tu PyME."/>
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" href="styles.css"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EFFIADMI — el sistema vivo</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              primary: '#2F80ED', dark: '#14324A', success: '#27AE60',
+              warning: '#F2C94C', error: '#EB5757', bg: '#F7FAFC',
+              card: '#FFFFFF', textPrimary: '#1F2937', textSecondary: '#6B7280'
+            }
+          },
+          fontFamily: { poppins: ['Poppins','sans-serif'], roboto: ['Roboto','sans-serif'] }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="styles.css"/>
 </head>
-<body>
+<body class="bg-brand-bg font-roboto text-brand-textPrimary antialiased overflow-x-hidden">
 
-    <!-- Cursor personalizado -->
-    <div class="cursor-glow" id="cursorGlow"></div>
-    <div class="cursor-dot" id="cursorDot"></div>
+  <!-- Cursor personalizado -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
 
-    <!-- Progress bar de scroll -->
-    <div class="scroll-progress" id="scrollProgress"></div>
+  <!-- Progress bar -->
+  <div class="scroll-progress" id="scrollProgress"></div>
 
-    <!-- ===== NAVBAR ===== -->
-    <header class="header" id="header">
-        <nav class="navbar container">
-            <a href="#" class="logo">
-                <svg class="logo-svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
-                    <rect x="2" y="2" width="32" height="32" rx="8" stroke="url(#logoGrad)" stroke-width="2.5"/>
-                    <path d="M12 18L16 22L24 14" stroke="url(#logoGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                    <defs>
-                        <linearGradient id="logoGrad" x1="0" y1="0" x2="36" y2="36">
-                            <stop offset="0%" stop-color="#2F80ED"/>
-                            <stop offset="100%" stop-color="#66A9FF"/>
-                        </linearGradient>
-                    </defs>
-                </svg>
-                <span class="logo-text">EFFIADMI</span>
-            </a>
-            <ul class="nav-menu" id="navMenu">
-                <li class="nav-item"><a href="#inicio" class="nav-link active">Inicio</a></li>
-                <li class="nav-item"><a href="#features" class="nav-link">Funciones</a></li>
-                <li class="nav-item"><a href="#stats" class="nav-link">Métricas</a></li>
-                <li class="nav-item"><a href="#testimonios" class="nav-link">Clientes</a></li>
-                <li class="nav-item"><a href="#contacto" class="nav-link btn-nav">Contacto</a></li>
-            </ul>
-            <div class="nav-toggle" id="navToggle">
-                <span></span><span></span><span></span>
-            </div>
-        </nav>
-    </header>
+  <!-- NAV -->
+  <header class="header" id="header">
+    <nav class="navbar container">
+      <a href="#" class="logo">
+        <svg class="logo-svg" width="32" height="32" viewBox="0 0 32 32">
+          <rect x="1" y="1" width="30" height="30" rx="7" stroke="url(#logoG)" stroke-width="2.5"/>
+          <path d="M10 16l4 4 8-8" stroke="url(#logoG)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs><linearGradient id="logoG" x1="0" y1="0" x2="32" y2="32"><stop offset="0%" stop-color="#2F80ED"/><stop offset="100%" stop-color="#66A9FF"/></linearGradient></defs>
+        </svg>
+        <span class="logo-text">EFFIADMI</span>
+      </a>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="#inicio" class="nav-link active">Inicio</a></li>
+        <li><a href="#modulos" class="nav-link">Módulos</a></li>
+        <li><a href="#juego" class="nav-link">Desafío</a></li>
+        <li><a href="#testimonios" class="nav-link">Voces</a></li>
+        <li><a href="#contacto" class="nav-link btn-nav">Contacto</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    </nav>
+  </header>
 
-    <!-- ===== HERO ===== -->
-    <section class="hero" id="inicio">
-        <!-- Fondo animado -->
-        <div class="hero-bg">
-            <div class="gradient-orb orb-1"></div>
-            <div class="gradient-orb orb-2"></div>
-            <div class="gradient-orb orb-3"></div>
-            <div class="grid-overlay"></div>
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="inicio">
+    <div class="hero-bg">
+      <div class="blob-morph b1"></div>
+      <div class="blob-morph b2"></div>
+      <div class="blob-morph b3"></div>
+      <div class="grid-overlay"></div>
+
+    <div class="hero-content container">
+      <div class="hero-text">
+        <div class="hero-chip"><span class="chip-dot"></span>Ecosistema vivo v2.0</div>
+        <h1 class="hero-title">
+          <span class="title-line">Gestión que</span>
+          <span class="title-line accent">respira <span class="text-ampersand">&</span>
+          <span class="title-line">decide sola</span>
+        </h1>
+        <p class="hero-desc">Inventarios que se autorregulan. Ventas que anticipan. Una plataforma donde los datos fluyen como un sistema nervioso digital para tu PyME.</p>
+        <div class="hero-actions">
+          <a href="#contacto" class="btn btn-primary"><span>Activar demo</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="#juego" class="btn btn-ghost"><span>Probar desafío</span></a>
         </div>
+        <div class="ticker-wrap"><div class="ticker-track" id="tickerTrack"><span>EMPRESAS ACTIVAS: 250</span><span>•</span><span>VENTAS HOY: $12,450</span><span>•</span><span>OPS/DÍA: 15,000+</span><span>•</span><span>SATISFACCIÓN: 98%</span><span>•</span></div>
+      </div>
+      <div class="hero-visual" id="heroVisual">
+        <div class="cube-container"><div class="cube" id="cube">
+          <div class="face front"><div class="face-content"><span class="face-stat">$12.4K</span><span class="face-label">Ventas hoy</span></div>
+          <div class="face back"><div class="face-content"><span class="face-stat">89%</span><span class="face-label">Rendimiento</span></div>
+          <div class="face right"><div class="face-content"><span class="face-stat">34</span><span class="face-label">Pedidos</span></div>
+          <div class="face left"><div class="face-content"><span class="face-stat">98%</span><span class="face-label">Satisfacción</span></div>
+          <div class="face top"><div class="face-content"><span class="face-stat">⚡</span><span class="face-label">Tiempo real</span></div>
+          <div class="face bottom"><div class="face-content"><span class="face-stat">☁️</span><span class="face-label">En la nube</span></div>
+        </div>
+        <div class="hero-orbits"><span class="orbit-circle" style="--i:0"></span><span class="orbit-circle" style="--i:1"></span><span class="orbit-circle" style="--i:2"></span></div>
+    </div>
+    <div class="hero-scroll"><span>DESLIZA</span><div class="scroll-line"><div class="scroll-dot"></div></div>
+  </section>
 
-        <div class="hero-content container">
-            <div class="hero-text">
-                <div class="hero-chip">
-                    <span class="chip-dot"></span>
-                    Plataforma Todo-en-Uno
-                </div>
-                <h1 class="hero-title">
-                    <span class="title-line">Gestiona tu PyME</span>
-                    <span class="title-line accent">como un <span class="text-ampersand">&</span></span>
-                    <span class="title-line">sistema inteligente</span>
-                </h1>
-                <p class="hero-desc">
-                    La plataforma que centraliza inventarios, ventas, reportes y usuarios en un solo lugar. Diseñada para que tu negocio crezca sin límites.
-                </p>
-                <div class="hero-actions">
-                    <a href="#contacto" class="btn btn-primary">
-                        <span>Solicitar demo</span>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </a>
-                    <a href="#features" class="btn btn-ghost">
-                        <span>Explorar</span>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12l4 4 4-4M12 8v8"/></svg>
-                    </a>
-                </div>
-                <div class="hero-marquee">
-                    <div class="marquee-track">
-                        <span>+250 empresas confían</span>
-                        <span>✦</span>
-                        <span>99.9% uptime</span>
-                        <span>✦</span>
-                        <span>+15K operaciones/día</span>
-                        <span>✦</span>
-                        <span>+250 empresas confían</span>
-                        <span>✦</span>
-                        <span>99.9% uptime</span>
-                        <span>✦</span>
-                        <span>+15K operaciones/día</span>
-                        <span>✦</span>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-visual" id="heroVisual">
-                <div class="cube-container">
-                    <div class="cube" id="cube">
-                        <div class="face front">
-                            <div class="face-content">
-                                <span class="face-stat">$12.4K</span>
-                                <span class="face-label">Ventas hoy</span>
-                            </div>
-                        </div>
-                        <div class="face back">
-                            <div class="face-content">
-                                <span class="face-stat">89%</span>
-                                <span class="face-label">Rendimiento</span>
-                            </div>
-                        </div>
-                        <div class="face right">
-                            <div class="face-content">
-                                <span class="face-stat">34</span>
-                                <span class="face-label">Pedidos</span>
-                            </div>
-                        </div>
-                        <div class="face left">
-                            <div class="face-content">
-                                <span class="face-stat">98%</span>
-                                <span class="face-label">Satisfacción</span>
-                            </div>
-                        </div>
-                        <div class="face top">
-                            <div class="face-content">
-                                <span class="face-stat">⚡</span>
-                                <span class="face-label">En tiempo real</span>
-                            </div>
-                        </div>
-                        <div class="face bottom">
-                            <div class="face-content">
-                                <span class="face-stat">☁️</span>
-                                <span class="face-label">En la nube</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hero-orbits">
-                    <span class="orbit-circle" style="--i:0"></span>
-                    <span class="orbit-circle" style="--i:1"></span>
-                    <span class="orbit-circle" style="--i:2"></span>
-                </div>
-            </div>
+  <!-- ===== MÓDULOS ===== -->
+  <section class="features" id="modulos">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="section-tag">Módulos</span>
+        <h2 class="section-title">El sistema opera en <span class="gradient-text">seis dimensiones</span></h2>
+        <p class="section-desc">Cada módulo respira con los demás. Datos que fluyen sin silos.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card" data-reveal data-reveal-delay="0" style="--accent:#2F80ED">
+          <div class="card-bg"></div>
+          <div class="card-icon"><span>📦</span></div>
+          <h3>Inventario vivo</h3>
+          <p>Stock que se autorregula con alertas predictivas y trazabilidad completa.</p>
+          <span class="card-arrow">→</span>
         </div>
+        <div class="feature-card" data-reveal data-reveal-delay="100" style="--accent:#27AE60">
+          <div class="card-bg"></div>
+          <div class="card-icon"><span>🛒</span></div>
+          <h3>Ventas + CRM</h3>
+          <p>Pipeline completo con carrito inteligente y facturación automática.</p>
+          <span class="card-arrow">→</span>
+        </div>
+        <div class="feature-card" data-reveal data-reveal-delay="200" style="--accent:#F2C94C">
+          <div class="card-bg"></div>
+          <div class="card-icon"><span>📊</span></div>
+          <h3>Analítica en vivo</h3>
+          <p>Dashboard adaptativo con KPI que evolucionan con tu negocio.</p>
+          <span class="card-arrow">→</span>
+        </div>
+        <div class="feature-card" data-reveal data-reveal-delay="0" style="--accent:#EB5757">
+          <div class="card-bg"></div>
+          <div class="card-icon"><span>👥</span></div>
+          <h3>Equipos</h3>
+          <p>Roles, permisos y auditoría sin fricción. Tu equipo sincronizado.</p>
+          <span class="card-arrow">→</span>
+        </div>
+        <div class="feature-card" data-reveal data-reveal-delay="100" style="--accent:#2F80ED">
+          <div class="card-bg"></div>
+          <div class="card-icon"><span>🔔</span></div>
+          <h3>Alertas</h3>
+          <p>El sistema te habla antes de que pase. Notificaciones multicanal.</p>
+          <span class="card-arrow">→</span>
+        </div>
+        <div class="feature-card" data-reveal data-reveal-delay="200" style="--accent:#27AE60">
+          <div class="card-bg"></div>
+          <div class="card-icon"><span>☁️</span></div>
+          <h3>Cloud Sync</h3>
+          <p>Todo, siempre, en todas partes. Infraestructura serverless.</p>
+          <span class="card-arrow">→</span>
+        </div>
+    </div>
+  </section>
 
-        <div class="hero-scroll">
-            <span>Scroll</span>
-            <div class="scroll-line"><div class="scroll-dot"></div></div>
+  <!-- ===== JUEGO ===== -->
+  <section class="py-24 bg-brand-dark relative overflow-hidden" id="juego">
+    <div class="blob-morph" style="width:500px;height:500px;background:radial-gradient(circle,rgba(47,128,237,0.12),transparent);top:-20%;right:-10%;"></div>
+    <div class="container relative z-10">
+      <div class="section-head" data-reveal>
+        <span class="section-tag" style="background:rgba(47,128,237,0.12);color:#66A9FF">Simulador</span>
+        <h2 class="section-title" style="color:#fff">Desafío: <span class="gradient-text">salva la PyME</span></h2>
+        <p class="section-desc" style="color:rgba(255,255,255,0.4)">Toma decisiones rápidas. Despacha pedidos. Mantén el equilibrio. ¿Cuántas operaciones puedes procesar en 15 segundos?</p>
+      </div>
+      <div class="max-w-md mx-auto bg-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10" data-reveal>
+        <div class="flex justify-between items-center mb-6 font-poppins">
+          <div><p class="text-xs text-white/30">Puntaje</p><p id="score" class="text-3xl font-bold text-brand-warning">0</p></div>
+          <div><p class="text-xs text-white/30">Tiempo</p><p id="timer" class="text-3xl font-bold text-white">15s</p></div>
+        <div id="game-body" class="space-y-4">
+          <p class="text-sm text-white/40">Presiona comenzar para activar el simulador.</p>
+          <button id="btn-start-game" class="w-full font-poppins font-bold bg-brand-primary text-white py-4 rounded-xl shadow-lg hover:bg-blue-600 transition text-lg">
+            ⚡ Comenzar desafío
+          </button>
         </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ===== FEATURES ===== -->
-    <section class="features" id="features">
-        <div class="container">
-            <div class="section-head" data-reveal>
-                <span class="section-tag">Funcionalidades</span>
-                <h2 class="section-title">Herramientas que trabajan <span class="gradient-text">en equipo</span></h2>
-                <p class="section-desc">Cada módulo está diseñado para integrarse perfectamente y potenciar tu operación diaria.</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card" data-reveal data-reveal-delay="0" style="--accent:#2F80ED">
-                    <div class="card-bg"></div>
-                    <div class="card-icon"><span>📦</span></div>
-                    <h3>Inventarios</h3>
-                    <p>Control en tiempo real con alertas predictivas y reportes automáticos.</p>
-                    <span class="card-arrow">→</span>
-                </div>
-                <div class="feature-card" data-reveal data-reveal-delay="100" style="--accent:#27AE60">
-                    <div class="card-bg"></div>
-                    <div class="card-icon"><span>🛒</span></div>
-                    <h3>Ventas</h3>
-                    <p>Carrito integrado con facturación automática y múltiples métodos de pago.</p>
-                    <span class="card-arrow">→</span>
-                </div>
-                <div class="feature-card" data-reveal data-reveal-delay="200" style="--accent:#F2C94C">
-                    <div class="card-bg"></div>
-                    <div class="card-icon"><span>📊</span></div>
-                    <h3>Analítica</h3>
-                    <p>Dashboard interactivo con métricas clave y gráficos dinámicos en vivo.</p>
-                    <span class="card-arrow">→</span>
-                </div>
-                <div class="feature-card" data-reveal data-reveal-delay="0" style="--accent:#EB5757">
-                    <div class="card-bg"></div>
-                    <div class="card-icon"><span>👥</span></div>
-                    <h3>Usuarios</h3>
-                    <p>Roles, permisos y auditoría de actividad para todo tu equipo.</p>
-                    <span class="card-arrow">→</span>
-                </div>
-                <div class="feature-card" data-reveal data-reveal-delay="100" style="--accent:#2F80ED">
-                    <div class="card-bg"></div>
-                    <div class="card-icon"><span>🔔</span></div>
-                    <h3>Notificaciones</h3>
-                    <p>Alertas inteligentes en tiempo real sobre cada movimiento importante.</p>
-                    <span class="card-arrow">→</span>
-                </div>
-                <div class="feature-card" data-reveal data-reveal-delay="200" style="--accent:#27AE60">
-                    <div class="card-bg"></div>
-                    <div class="card-icon"><span>☁️</span></div>
-                    <h3>Cloud Sync</h3>
-                    <p>Tus datos seguros y accesibles desde cualquier dispositivo, siempre.</p>
-                    <span class="card-arrow">→</span>
-                </div>
-            </div>
+  <!-- ===== MÉTRICAS ===== -->
+  <section class="py-24 bg-brand-card" id="metricas">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="section-tag">Data</span>
+        <h2 class="section-title">Datos que <span class="gradient-text">importan</span></h2>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card" data-reveal>
+          <div class="stat-ring">
+            <svg viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="52"/><circle class="ring-fill" cx="60" cy="60" r="52" style="--pct:85" data-target="250"/></svg>
+            <span class="stat-num" data-count="250" data-suffix="">0</span>
+          </div>
+          <span class="stat-label">Empresas activas</span>
         </div>
-    </section>
+        <div class="stat-card" data-reveal>
+          <div class="stat-ring">
+            <svg viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="52"/><circle class="ring-fill" cx="60" cy="60" r="52" style="--pct:92" data-target="15000"/></svg>
+            <span class="stat-num" data-count="15000" data-suffix="+">0</span>
+          </div>
+          <span class="stat-label">Operaciones/día</span>
+        </div>
+        <div class="stat-card" data-reveal>
+          <div class="stat-ring">
+            <svg viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="52"/><circle class="ring-fill" cx="60" cy="60" r="52" style="--pct:98" data-target="98"/></svg>
+            <span class="stat-num" data-count="98" data-suffix="%">0</span>
+          </div>
+          <span class="stat-label">Satisfacción</span>
+        </div>
+        <div class="stat-card" data-reveal>
+          <div class="stat-ring">
+            <svg viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="52"/><circle class="ring-fill" cx="60" cy="60" r="52" style="--pct:75" data-target="40"/></svg>
+            <span class="stat-num" data-count="40" data-suffix="h">0</span>
+          </div>
+          <span class="stat-label">Ahorro mensual</span>
+        </div>
+    </div>
+  </section>
 
-    <!-- ===== STATS ===== -->
-    <section class="stats" id="stats">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-card" data-reveal>
-                    <div class="stat-ring">
-                        <svg viewBox="0 0 120 120">
-                            <circle class="ring-bg" cx="60" cy="60" r="52"/>
-                            <circle class="ring-fill" cx="60" cy="60" r="52" style="--pct:85" data-target="250"/>
-                        </svg>
-                        <span class="stat-num" data-count="250" data-suffix="">0</span>
-                    </div>
-                    <span class="stat-label">Empresas activas</span>
-                </div>
-                <div class="stat-card" data-reveal>
-                    <div class="stat-ring">
-                        <svg viewBox="0 0 120 120">
-                            <circle class="ring-bg" cx="60" cy="60" r="52"/>
-                            <circle class="ring-fill" cx="60" cy="60" r="52" style="--pct:92" data-target="15000"/>
-                        </svg>
-                        <span class="stat-num" data-count="15000" data-suffix="+">0</span>
-                    </div>
-                    <span class="stat-label">Operaciones/día</span>
-                </div>
-                <div class="stat-card" data-reveal>
-                    <div class="stat-ring">
-                        <svg viewBox="0 0 120 120">
-                            <circle class="ring-bg" cx="60" cy="60" r="52"/>
-                            <circle class="ring-fill" cx="60" cy="60" r="52" style="--pct:98" data-target="98"/>
-                        </svg>
-                        <span class="stat-num" data-count="98" data-suffix="%">0</span>
-                    </div>
-                    <span class="stat-label">Satisfacción</span>
-                </div>
-                <div class="stat-card" data-reveal>
-                    <div class="stat-ring">
-                        <svg viewBox="0 0 120 120">
-                            <circle class="ring-bg" cx="60" cy="60" r="52"/>
-                            <circle class="ring-fill" cx="60" cy="60" r="52" style="--pct:75" data-target="40"/>
-                        </svg>
-                        <span class="stat-num" data-count="40" data-suffix="h">0</span>
-                    </div>
-                    <span class="stat-label">Ahorro mensual</span>
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- ===== TESTIMONIOS ===== -->
+  <section class="py-24 bg-brand-bg" id="testimonios">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="section-tag">Voces</span>
+        <h2 class="section-title">Quienes ya <span class="gradient-text">lo viven</span></h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card-main" data-reveal>
+          <div class="t-card-inner">
+            <div class="t-stars">★★★★★</div>
+            <p class="t-text">"Pasamos de 4 plataformas a una. El inventario dejó de ser un dolor de cabeza. Ahora todo fluye."</p>
+            <div class="t-author">
+              <div class="t-avatar" style="background:linear-gradient(135deg,#2F80ED,#66A9FF)">MG</div>
+              <div><strong>María García</strong><span>CEO · Grupo Nova</span></div>
+          </div>
+        <div class="testimonial-card-main" data-reveal data-reveal-delay="100">
+          <div class="t-card-inner">
+            <div class="t-stars">★★★★★</div>
+            <p class="t-text">"Duplicamos ventas en 3 meses. La analítica nos mostró patrones que nunca habíamos visto."</p>
+            <div class="t-author">
+              <div class="t-avatar" style="background:linear-gradient(135deg,#27AE60,#6FCF97)">CR</div>
+              <div><strong>Carlos Ruiz</strong><span>Director · TechSol</span></div>
+          </div>
+        <div class="testimonial-card-main" data-reveal data-reveal-delay="200">
+          <div class="t-card-inner">
+            <div class="t-stars">★★★★★</div>
+            <p class="t-text">"Implementar EFFIADMI fue como darle un sistema nervioso a la empresa. Todo está conectado."</p>
+            <div class="t-author">
+              <div class="t-avatar" style="background:linear-gradient(135deg,#F2C94C,#F2994A);color:#1F2937">AL</div>
+              <div><strong>Ana López</strong><span>Gerente · Dist. Sur</span></div>
+          </div>
+      </div>
+  </section>
 
-    <!-- ===== TESTIMONIOS ===== -->
-    <section class="testimonials" id="testimonios">
-        <div class="container">
-            <div class="section-head" data-reveal>
-                <span class="section-tag">Testimonios</span>
-                <h2 class="section-title">Lo que dicen <span class="gradient-text">quienes ya confían</span></h2>
-            </div>
-            <div class="testimonials-grid">
-                <div class="testimonial-card-main" data-reveal>
-                    <div class="t-card-inner">
-                        <div class="t-stars">★★★★★</div>
-                        <p class="t-text">"EFFIADMI transformó nuestra operación. Pasamos de usar 4 plataformas a una sola. El control de inventarios nos cambió la vida."</p>
-                        <div class="t-author">
-                            <div class="t-avatar" style="background:linear-gradient(135deg,#2F80ED,#66A9FF)">MG</div>
-                            <div>
-                                <strong>María García</strong>
-                                <span>CEO · Grupo Nova</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card-main" data-reveal data-reveal-delay="100">
-                    <div class="t-card-inner">
-                        <div class="t-stars">★★★★★</div>
-                        <p class="t-text">"La analítica en tiempo real nos permitió tomar decisiones que duplicaron nuestras ventas en 3 meses. Es una herramienta indispensable."</p>
-                        <div class="t-author">
-                            <div class="t-avatar" style="background:linear-gradient(135deg,#27AE60,#6FCF97)">CR</div>
-                            <div>
-                                <strong>Carlos Ruiz</strong>
-                                <span>Director · TechSol</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card-main" data-reveal data-reveal-delay="200">
-                    <div class="t-card-inner">
-                        <div class="t-stars">★★★★★</div>
-                        <p class="t-text">"Implementar EFFIADMI fue la mejor decisión del año. El soporte es excepcional y la plataforma sigue mejorando cada mes."</p>
-                        <div class="t-author">
-                            <div class="t-avatar" style="background:linear-gradient(135deg,#F2C94C,#F2994A);color:#1F2937">AL</div>
-                            <div>
-                                <strong>Ana López</strong>
-                                <span>Gerente · DistribuidoraSur</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <!-- ===== CONTACTO ===== -->
+  <section class="contact" id="contacto">
+    <div class="contact-bg">
+      <div class="blob-morph" style="width:500px;height:500px;background:radial-gradient(circle,rgba(47,128,237,0.12),transparent);top:-20%;left:-10%;"></div>
+      <div class="blob-morph" style="width:400px;height:400px;background:radial-gradient(circle,rgba(102,169,255,0.08),transparent);bottom:-15%;right:-5%;animation-delay:3s;"></div>
+    <div class="container">
+      <div class="contact-wrapper" data-reveal>
+        <div class="contact-info">
+          <span class="section-tag" style="background:rgba(47,128,237,0.12);color:#66A9FF">Acceso</span>
+          <h2 class="section-title" style="color:#fff">Entra al <span class="gradient-text">ecosistema</span></h2>
+          <p class="contact-desc">Cuéntanos de tu negocio y en 24h te mostraremos cómo EFFIADMI transforma tu operación.</p>
+          <div class="contact-channels">
+            <div class="channel"><span>📧</span> hola@effiadmi.com</div>
+            <div class="channel"><span>📞</span> +1 (555) 123-4567</div>
+            <div class="channel"><span>📍</span> CDMX, México</div>
         </div>
-    </section>
+        <form class="contact-form" id="contactForm">
+          <div class="form-floating">
+            <input type="text" id="formName" required placeholder=" "/>
+            <label for="formName">Nombre completo</label>
+            <span class="form-bar"></span>
+          </div>
+          <div class="form-floating">
+            <input type="email" id="formEmail" required placeholder=" "/>
+            <label for="formEmail">Correo electrónico</label>
+            <span class="form-bar"></span>
+          </div>
+          <div class="form-floating">
+            <input type="tel" id="formPhone" placeholder=" "/>
+            <label for="formPhone">Teléfono (opcional)</label>
+            <span class="form-bar"></span>
+          </div>
+          <div class="form-floating">
+            <textarea id="formMessage" rows="3" required placeholder=" "></textarea>
+            <label for="formMessage">Cuéntanos de tu negocio</label>
+            <span class="form-bar"></span>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">
+            <span>Enviar señal</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+          <p class="form-msg" id="formMsg">✅ Mensaje enviado. Te contactaremos pronto.</p>
+        </form>
+      </div>
+  </section>
 
-    <!-- ===== CTA / CONTACTO ===== -->
-    <section class="contact" id="contacto">
-        <div class="contact-bg">
-            <div class="gradient-orb orb-4"></div>
-            <div class="gradient-orb orb-5"></div>
-        </div>
-        <div class="container">
-            <div class="contact-wrapper" data-reveal>
-                <div class="contact-info">
-                    <span class="section-tag" style="background:rgba(47,128,237,0.12);color:#66A9FF">Contacto</span>
-                    <h2 class="section-title" style="color:#fff">¿Listo para <span class="gradient-text">escalar</span> tu negocio?</h2>
-                    <p class="contact-desc">Déjanos tus datos y en menos de 24 horas te mostraremos cómo EFFIADMI puede transformar tu operación.</p>
-                    <div class="contact-channels">
-                        <div class="channel"><span>📧</span> hola@effiadmi.com</div>
-                        <div class="channel"><span>📞</span> +1 (555) 123-4567</div>
-                        <div class="channel"><span>📍</span> CDMX, México</div>
-                    </div>
-                </div>
-                <form class="contact-form" id="contactForm">
-                    <div class="form-floating">
-                        <input type="text" id="formName" required placeholder=" "/>
-                        <label for="formName">Nombre completo</label>
-                        <span class="form-bar"></span>
-                    </div>
-                    <div class="form-floating">
-                        <input type="email" id="formEmail" required placeholder=" "/>
-                        <label for="formEmail">Correo electrónico</label>
-                        <span class="form-bar"></span>
-                    </div>
-                    <div class="form-floating">
-                        <input type="tel" id="formPhone" placeholder=" "/>
-                        <label for="formPhone">Teléfono (opcional)</label>
-                        <span class="form-bar"></span>
-                    </div>
-                    <div class="form-floating">
-                        <textarea id="formMessage" rows="3" required placeholder=" "></textarea>
-                        <label for="formMessage">Cuéntanos de tu negocio</label>
-                        <span class="form-bar"></span>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">
-                        <span>Enviar mensaje</span>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-                    </button>
-                    <p class="form-msg" id="formMsg">✅ ¡Mensaje enviado! Te contactaremos pronto.</p>
-                </form>
-            </div>
-        </div>
-    </section>
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-waves">
+      <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+        <path d="M0,40 C360,100 1080,-20 1440,40 L1440,80 L0,80 Z" fill="url(#fGrad)"/>
+        <defs><linearGradient id="fGrad" x1="0" y1="0" x2="1440" y2="0"><stop offset="0%" stop-color="#14324A"/><stop offset="50%" stop-color="#2F80ED"/><stop offset="100%" stop-color="#14324A"/></linearGradient></defs>
+      </svg>
+    </div>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="logo" style="color:#fff">
+            <svg width="28" height="28" viewBox="0 0 32 32"><rect x="1" y="1" width="30" height="30" rx="7" stroke="#66A9FF" stroke-width="2.5"/><path d="M10 16l4 4 8-8" stroke="#66A9FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>EFFIADMI</span>
+          </a>
+          <p>Gestión inteligente para PyMEs modernas. Todo en uno, siempre en la nube.</p>
+          <div class="social">
+            <a href="#" aria-label="GitHub">GH</a>
+            <a href="#" aria-label="Twitter">X</a>
+            <a href="#" aria-label="LinkedIn">in</a>
+            <a href="#" aria-label="Instagram">IG</a>
+          </div>
+        <div class="footer-col"><h4>Producto</h4><a href="#modulos">Módulos</a><a href="#">Precios</a><a href="#">API</a><a href="#">Integraciones</a></div>
+        <div class="footer-col"><h4>Compañía</h4><a href="#">Sobre nosotros</a><a href="#">Blog</a><a href="#">Carreras</a><a href="#contacto">Contacto</a></div>
+        <div class="footer-col"><h4>Legal</h4><a href="#">Privacidad</a><a href="#">Términos</a><a href="#">Cookies</a><a href="#">Seguridad</a></div>
+      <div class="footer-bottom"><p>&copy; 2026 EFFIADMI. Todos los derechos reservados. Hecho con ❤️ para PyMEs.</p></div>
+  </footer>
 
-    <!-- ===== FOOTER ===== -->
-    <footer class="footer">
-        <div class="footer-waves">
-            <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
-                <path d="M0,50 C360,130 1080,-30 1440,50 L1440,100 L0,100 Z" fill="url(#footerGrad)"/>
-                <defs>
-                    <linearGradient id="footerGrad" x1="0" y1="0" x2="1440" y2="0">
-                        <stop offset="0%" stop-color="#14324A"/>
-                        <stop offset="50%" stop-color="#2F80ED"/>
-                        <stop offset="100%" stop-color="#14324A"/>
-                    </linearGradient>
-                </defs>
-            </svg>
-        </div>
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="#" class="logo" style="color:#fff">
-                        <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
-                            <rect x="2" y="2" width="32" height="32" rx="8" stroke="#66A9FF" stroke-width="2.5"/>
-                            <path d="M12 18L16 22L24 14" stroke="#66A9FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <span>EFFIADMI</span>
-                    </a>
-                    <p>Gestión inteligente para PyMEs modernas. Todo en uno, siempre en la nube.</p>
-                    <div class="social">
-                        <a href="#" aria-label="GitHub">GH</a>
-                        <a href="#" aria-label="Twitter">X</a>
-                        <a href="#" aria-label="LinkedIn">in</a>
-                        <a href="#" aria-label="Instagram">IG</a>
-                    </div>
-                </div>
-                <div class="footer-col">
-                    <h4>Producto</h4>
-                    <a href="#features">Funcionalidades</a>
-                    <a href="#">Precios</a>
-                    <a href="#">API</a>
-                    <a href="#">Integraciones</a>
-                </div>
-                <div class="footer-col">
-                    <h4>Compañía</h4>
-                    <a href="#">Sobre nosotros</a>
-                    <a href="#">Blog</a>
-                    <a href="#">Carreras</a>
-                    <a href="#contacto">Contacto</a>
-                </div>
-                <div class="footer-col">
-                    <h4>Legal</h4>
-                    <a href="#">Privacidad</a>
-                    <a href="#">Términos</a>
-                    <a href="#">Cookies</a>
-                    <a href="#">Seguridad</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 EFFIADMI. Todos los derechos reservados. Hecho con ❤️ para PyMEs.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
-
