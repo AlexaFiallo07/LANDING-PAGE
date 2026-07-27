@@ -1,52 +1,244 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  // ==================== 1. EFECTO PARALLAX (MOVIMIENTO DEL MOUSE) ====================
-  document.addEventListener('mousemove', (e) => {
-    const layers = document.querySelectorAll('.parallax-layer');
-    const x = (window.innerWidth - e.pageX) / 50;
-    const y = (window.innerHeight - e.pageY) / 50;
+  // ============================================
+  // 1. CURSOR PERSONALIZADO
+  // ============================================
+  const cursorGlow = document.getElementById('cursorGlow');
+  const cursorDot = document.getElementById('cursorDot');
 
-    layers.forEach(layer => {
-      const speed = layer.getAttribute('data-speed') || 1;
-      layer.style.transform = `translateX(${x * speed}px) translateY(${y * speed}px)`;
+  if (cursorGlow && cursorDot) {
+    document.addEventListener('mousemove', (e) => {
+      cursorGlow.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+      cursorDot.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
     });
-  });
 
-  // ==================== 2. CONTROL DEL MODAL DE LOGIN ====================
-  const loginModal = document.getElementById('loginModal');
-  const modalCard = document.getElementById('modalCard');
-  const btnOpenLogin = document.getElementById('btn-open-login');
-  const btnCloseLogin = document.getElementById('btn-close-login');
-  const loginForm = document.getElementById('login-form');
+    document.querySelectorAll('a, button, .feature-card, .testimonial-card-main, input, textarea').forEach(el => {
+      el.addEventListener('mouseenter', () => cursorDot.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cursorDot.classList.remove('hover'));
+    });
 
-  function toggleModal() {
-    if (loginModal.classList.contains('hidden')) {
-      loginModal.classList.remove('hidden');
-      setTimeout(() => {
-        loginModal.classList.remove('opacity-0');
-        modalCard.classList.remove('scale-95');
-      }, 10);
-    } else {
-      loginModal.classList.add('opacity-0');
-      modalCard.classList.add('scale-95');
-      setTimeout(() => {
-        loginModal.classList.add('hidden');
-      }, 300);
+    // Hide cursor on touch devices
+    if ('ontouchstart' in window) {
+      cursorGlow.style.display = 'none';
+      cursorDot.style.display = 'none';
+      document.body.style.cursor = 'auto';
     }
   }
 
-  if (btnOpenLogin) btnOpenLogin.addEventListener('click', toggleModal);
-  if (btnCloseLogin) btnCloseLogin.addEventListener('click', toggleModal);
-
-  if (loginForm) {
-    loginForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('¡Inicio de sesión simulado con éxito!');
-      toggleModal();
+  // ============================================
+  // 2. SCROLL PROGRESS BAR
+  // ============================================
+  const scrollBar = document.getElementById('scrollProgress');
+  if (scrollBar) {
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (scrollTop / docHeight) * 100;
+      scrollBar.style.width = `${progress}%`;
     });
   }
 
-  // ==================== 3. LÓGICA DEL MINIJUEGO INTERACTIVO ====================
+  // ============================================
+  // 3. NAVBAR SCROLL EFFECT
+  // ============================================
+  const header = document.getElementById('header');
+  if (header) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 80) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+  }
+
+  // ============================================
+  // 4. MOBILE MENU TOGGLE
+  // ============================================
+  const navToggle = document.getElementById('navToggle');
+  const navMenu = document.getElementById('navMenu');
+
+  if (navToggle && navMenu) {
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('active');
+      navMenu.classList.toggle('active');
+    });
+
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('active');
+        navMenu.classList.remove('active');
+      });
+    });
+  }
+
+  // ============================================
+  // 5. 3D CUBE ROTATION ON MOUSE
+  // ============================================
+  const cube = document.getElementById('cube');
+  const heroVisual = document.getElementById('heroVisual');
+
+  if (cube && heroVisual) {
+    let rotX = -15;
+    let rotY = 0;
+    let targetRotX = -15;
+    let targetRotY = 0;
+    let isHovering = false;
+
+    heroVisual.addEventListener('mouseenter', () => { isHovering = true; });
+    heroVisual.addEventListener('mouseleave', () => { isHovering = false; });
+
+    heroVisual.addEventListener('mousemove', (e) => {
+      if (!isHovering) return;
+      const rect = heroVisual.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      targetRotY = x * 60;
+      targetRotX = -15 - y * 30;
+    });
+
+    function animateCube() {
+      if (!isHovering) {
+        targetRotY += 0.3;
+      }
+      rotX += (targetRotX - rotX) * 0.05;
+      rotY += (targetRotY - rotY) * 0.05;
+      cube.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+      requestAnimationFrame(animateCube);
+    }
+    animateCube();
+  }
+
+  // ============================================
+  // 6. SCROLL REVEAL
+  // ============================================
+  const revealElements = document.querySelectorAll('[data-reveal]');
+  if (revealElements.length) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const delay = entry.target.dataset.revealDelay || 0;
+          setTimeout(() => entry.target.classList.add('visible'), parseInt(delay));
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    revealElements.forEach(el => observer.observe(el));
+  }
+
+  // ============================================
+  // 7. ANIMATED COUNTERS (Stats rings)
+  // ============================================
+  const statNumbers = document.querySelectorAll('.stat-num');
+  if (statNumbers.length) {
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.dataset.count, 10);
+          const suffix = el.dataset.suffix || '';
+          if (isNaN(target)) return;
+
+          let current = 0;
+          const increment = Math.max(1, Math.floor(target / 50));
+          const update = () => {
+            current += increment;
+            if (current >= target) {
+              el.textContent = target.toLocaleString() + suffix;
+              counterObserver.unobserve(el);
+              return;
+            }
+            el.textContent = current.toLocaleString() + suffix;
+            requestAnimationFrame(() => setTimeout(update, 30));
+          };
+          update();
+          counterObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    statNumbers.forEach(el => counterObserver.observe(el));
+  }
+
+  // ============================================
+  // 8. ACTIVE NAV LINK ON SCROLL
+  // ============================================
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  if (sections.length && navLinks.length) {
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+          });
+        }
+      });
+    }, { threshold: 0.25, rootMargin: '-80px 0px 0px 0px' });
+
+    sections.forEach(s => navObserver.observe(s));
+  }
+
+  // ============================================
+  // 9. TICKER DUPLICATE FOR SEAMLESS LOOP
+  // ============================================
+  const tickerTrack = document.getElementById('tickerTrack');
+  if (tickerTrack) {
+    const clone = tickerTrack.cloneNode(true);
+    tickerTrack.parentElement.appendChild(clone);
+  }
+
+  // ============================================
+  // 10. THREEJS CUBE (si existe canvas con ese id, lo ignoramos - usamos CSS 3D)
+  // ============================================
+
+  // ============================================
+  // 11. CONTACT FORM VALIDATION
+  // ============================================
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    const formMsg = document.getElementById('formMsg');
+    const nameInput = document.getElementById('formName');
+    const emailInput = document.getElementById('formEmail');
+    const messageInput = document.getElementById('formMessage');
+
+    function validateEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim();
+      const message = messageInput.value.trim();
+
+      if (!name || !email || !message || !validateEmail(email)) {
+        if (!name) nameInput.focus();
+        else if (!email || !validateEmail(email)) emailInput.focus();
+        else if (!message) messageInput.focus();
+        return;
+      }
+
+      const btn = contactForm.querySelector('.btn');
+      const orig = btn.innerHTML;
+      btn.innerHTML = 'Enviando...';
+      btn.disabled = true;
+
+      setTimeout(() => {
+        formMsg.classList.add('show');
+        contactForm.reset();
+        btn.innerHTML = orig;
+        btn.disabled = false;
+        setTimeout(() => formMsg.classList.remove('show'), 5000);
+      }, 1200);
+    });
+  }
+
+  // ============================================
+  // 12. JUEGO: SALVA LA PYME
+  // ============================================
   let score = 0;
   let timeLeft = 15;
   let timerId = null;
@@ -63,16 +255,15 @@ document.addEventListener('DOMContentLoaded', () => {
   function startGame() {
     score = 0;
     timeLeft = 15;
-    scoreDisplay.innerText = score;
-    timerDisplay.innerText = timeLeft + 's';
+    if (scoreDisplay) scoreDisplay.innerText = '0';
+    if (timerDisplay) timerDisplay.innerText = '15s';
     
     nextRound();
-
     if (timerId) clearInterval(timerId);
     
     timerId = setInterval(() => {
       timeLeft--;
-      timerDisplay.innerText = timeLeft + 's';
+      if (timerDisplay) timerDisplay.innerText = timeLeft + 's';
       if (timeLeft <= 0) {
         clearInterval(timerId);
         endGame();
@@ -81,39 +272,76 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function nextRound() {
+    if (!gameBody) return;
     const tasks = [
-      { label: "📦 Registrar Venta Nueva", color: "bg-brand-primary" },
-      { label: "⚠️ Alerta de Stock Bajo", color: "bg-brand-warning text-brand-dark" },
-      { label: "🤖 Ejecutar Predicción IA", color: "bg-brand-success" }
+      { label: '📦 Registrar Venta Nueva', color: 'bg-brand-primary' },
+      { label: '⚠️ Alerta de Stock Bajo', color: 'bg-brand-warning text-brand-dark' },
+      { label: '🤖 Ejecutar Predicción IA', color: 'bg-brand-success' }
     ];
-    const randomTask = tasks[Math.floor(Math.random() * tasks.length)];
+    const t = tasks[Math.floor(Math.random() * tasks.length)];
 
     gameBody.innerHTML = `
-      <p class="text-xs text-gray-300">¡Rápido! Haz clic en la acción correcta:</p>
-      <button id="btn-action" class="w-full font-poppins font-bold ${randomTask.color} text-white py-3.5 rounded-xl shadow-lg transform active:scale-95 transition">
-        ${randomTask.label}
+      <p class="text-sm text-white/50 font-roboto mb-2">Acción requerida:</p>
+      <button id="btn-action" class="w-full font-poppins font-bold ${t.color} text-white py-4 rounded-xl shadow-lg active:scale-95 transition text-lg">
+        ${t.label}
       </button>
     `;
 
     document.getElementById('btn-action').addEventListener('click', () => {
       score += 10;
-      scoreDisplay.innerText = score;
+      if (scoreDisplay) scoreDisplay.innerText = score;
       nextRound();
     });
   }
 
   function endGame() {
+    if (!gameBody) return;
+    const ops = score / 10;
     gameBody.innerHTML = `
-      <div class="py-2">
-        <p class="font-poppins font-bold text-lg text-brand-warning">¡Tiempo Agotado!</p>
-        <p class="text-xs text-gray-200 mt-1 mb-4">Lograste procesar <strong>${score / 10} operaciones</strong> en tu PYME.</p>
-        <button id="btn-restart" class="w-full font-poppins font-bold bg-brand-primary text-white py-3 rounded-xl hover:bg-blue-600 transition">
-          Volver a Jugar
+      <div>
+        <p class="font-poppins font-bold text-2xl text-brand-warning mb-1">⏱ ¡Tiempo!</p>
+        <p class="text-sm text-white/60 mb-5">Procesaste <strong class="text-white">${ops} operaciones</strong></p>
+        <button id="btn-restart" class="w-full font-poppins font-bold bg-brand-primary text-white py-4 rounded-xl hover:bg-blue-600 transition text-lg">
+          ↻ Reintentar
         </button>
       </div>
     `;
-
     document.getElementById('btn-restart').addEventListener('click', startGame);
   }
 
+  // ============================================
+  // 13. PARALLAX BLOBS EN HERO
+  // ============================================
+  const blobs = document.querySelectorAll('.blob-morph');
+  if (blobs.length) {
+    document.addEventListener('mousemove', (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 2;
+      const y = (e.clientY / window.innerHeight - 0.5) * 2;
+      blobs.forEach((blob, i) => {
+        const speed = 15 + i * 8;
+        blob.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+      });
+    });
+  }
+
+  // ============================================
+  // 14. RING FILL ANIMATION ON SCROLL
+  // ============================================
+  const ringFills = document.querySelectorAll('.ring-fill');
+  if (ringFills.length) {
+    const ringObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const fill = entry.target;
+          const pct = fill.style.getPropertyValue('--pct');
+          fill.style.strokeDashoffset = `calc(326.7 - (326.7 * ${pct}) / 100)`;
+          ringObserver.unobserve(fill);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    ringFills.forEach(fill => ringObserver.observe(fill));
+  }
+
+  console.log('🧠 EFFIADMI — sistema vivo cargado');
 });
