@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
       el.addEventListener('mouseleave', () => cursorDot.classList.remove('hover'));
     });
 
-    // Hide cursor on touch devices
     if ('ontouchstart' in window) {
       cursorGlow.style.display = 'none';
       cursorDot.style.display = 'none';
@@ -192,11 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ============================================
-  // 10. THREEJS CUBE (si existe canvas con ese id, lo ignoramos - usamos CSS 3D)
-  // ============================================
-
-  // ============================================
-  // 11. CONTACT FORM VALIDATION
+  // 10. CONTACT FORM VALIDATION
   // ============================================
   const contactForm = document.getElementById('contactForm');
   if (contactForm) {
@@ -237,72 +232,65 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ============================================
-  // 12. JUEGO: SALVA LA PYME
+  // 11. JUEGO: SALVA LA PYME (click rápido)
   // ============================================
   let score = 0;
   let timeLeft = 15;
   let timerId = null;
+  let gameActive = false;
 
   const btnStartGame = document.getElementById('btn-start-game');
   const scoreDisplay = document.getElementById('score');
   const timerDisplay = document.getElementById('timer');
   const gameBody = document.getElementById('game-body');
 
-  if (btnStartGame) {
-    btnStartGame.addEventListener('click', startGame);
-  }
-
   function startGame() {
     score = 0;
     timeLeft = 15;
+    gameActive = true;
+    if (timerId) clearInterval(timerId);
     if (scoreDisplay) scoreDisplay.innerText = '0';
     if (timerDisplay) timerDisplay.innerText = '15s';
-    
-    nextRound();
-    if (timerId) clearInterval(timerId);
-    
+
+    gameBody.innerHTML = `
+      <p class="text-sm text-white/50 font-roboto mb-2">¡Da clic lo más rápido que puedas!</p>
+      <button id="btn-clicker" class="btn-game-click w-full font-poppins font-bold bg-brand-primary text-white py-8 rounded-xl shadow-lg active:scale-95 transition text-2xl hover:bg-blue-600">
+        👆 +10 puntos
+      </button>
+    `;
+
+    document.getElementById('btn-clicker').addEventListener('click', function onClick() {
+      if (!gameActive) return;
+      score += 10;
+      if (scoreDisplay) scoreDisplay.innerText = score;
+      this.style.transform = 'scale(0.93)';
+      setTimeout(() => this.style.transform = 'scale(1)', 80);
+    });
+
     timerId = setInterval(() => {
       timeLeft--;
       if (timerDisplay) timerDisplay.innerText = timeLeft + 's';
       if (timeLeft <= 0) {
         clearInterval(timerId);
+        gameActive = false;
         endGame();
       }
     }, 1000);
   }
 
-  function nextRound() {
-    if (!gameBody) return;
-    const tasks = [
-      { label: '📦 Registrar Venta Nueva', color: 'bg-brand-primary' },
-      { label: '⚠️ Alerta de Stock Bajo', color: 'bg-brand-warning text-brand-dark' },
-      { label: '🤖 Ejecutar Predicción IA', color: 'bg-brand-success' }
-    ];
-    const t = tasks[Math.floor(Math.random() * tasks.length)];
-
-    gameBody.innerHTML = `
-      <p class="text-sm text-white/50 font-roboto mb-2">Acción requerida:</p>
-      <button id="btn-action" class="w-full font-poppins font-bold ${t.color} text-white py-4 rounded-xl shadow-lg active:scale-95 transition text-lg">
-        ${t.label}
-      </button>
-    `;
-
-    document.getElementById('btn-action').addEventListener('click', () => {
-      score += 10;
-      if (scoreDisplay) scoreDisplay.innerText = score;
-      nextRound();
-    });
+  if (btnStartGame) {
+    btnStartGame.addEventListener('click', startGame);
   }
 
   function endGame() {
     if (!gameBody) return;
-    const ops = score / 10;
     gameBody.innerHTML = `
       <div>
-        <p class="font-poppins font-bold text-2xl text-brand-warning mb-1">⏱ ¡Tiempo!</p>
-        <p class="text-sm text-white/60 mb-5">Procesaste <strong class="text-white">${ops} operaciones</strong></p>
+        <p class="font-poppins font-bold text-3xl text-brand-warning mb-1">⏱ ¡Tiempo!</p>
+        <p class="text-sm text-white/60 mb-2">Procesaste <strong class="text-white text-2xl">${score}</strong> pts</p>
+        <p class="text-xs text-white/30 mb-5">en 15 segundos</p>
         <button id="btn-restart" class="w-full font-poppins font-bold bg-brand-primary text-white py-4 rounded-xl hover:bg-blue-600 transition text-lg">
-          ↻ Reintentar
+          ↻ Jugar de nuevo
         </button>
       </div>
     `;
@@ -310,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ============================================
-  // 13. PARALLAX BLOBS EN HERO
+  // 12. PARALLAX BLOBS EN HERO
   // ============================================
   const blobs = document.querySelectorAll('.blob-morph');
   if (blobs.length) {
@@ -325,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ============================================
-  // 14. RING FILL ANIMATION ON SCROLL
+  // 13. RING FILL ANIMATION ON SCROLL
   // ============================================
   const ringFills = document.querySelectorAll('.ring-fill');
   if (ringFills.length) {
