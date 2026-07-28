@@ -12,9 +12,15 @@ document.addEventListener('DOMContentLoaded', () => {
       cursorDot.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
     });
 
-    document.querySelectorAll('a, button, .feature-card, .testimonial-card-main, input, textarea').forEach(el => {
-      el.addEventListener('mouseenter', () => cursorDot.classList.add('hover'));
-      el.addEventListener('mouseleave', () => cursorDot.classList.remove('hover'));
+    document.addEventListener('mouseover', (e) => {
+      if (e.target.closest('a, button, .feature-card, .testimonial-card-main, input, textarea')) {
+        cursorDot.classList.add('hover');
+      }
+    });
+    document.addEventListener('mouseout', (e) => {
+      if (e.target.closest('a, button, .feature-card, .testimonial-card-main, input, textarea')) {
+        cursorDot.classList.remove('hover');
+      }
     });
 
     if ('ontouchstart' in window) {
@@ -145,14 +151,12 @@ document.addEventListener('DOMContentLoaded', () => {
             current += increment;
             if (current >= target) {
               el.textContent = target.toLocaleString() + suffix;
-              counterObserver.unobserve(el);
               return;
             }
             el.textContent = current.toLocaleString() + suffix;
             requestAnimationFrame(() => setTimeout(update, 30));
           };
           update();
-          counterObserver.unobserve(el);
         }
       });
     }, { threshold: 0.5 });
@@ -187,6 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const tickerTrack = document.getElementById('tickerTrack');
   if (tickerTrack) {
     const clone = tickerTrack.cloneNode(true);
+    clone.removeAttribute('id');
     tickerTrack.parentElement.appendChild(clone);
   }
 
